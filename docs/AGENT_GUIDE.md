@@ -47,6 +47,7 @@ The project bridges two complementary paradigms:
     ├── PUBLISHABLE_PROPOSALS.md  # 5 publication-ready conference proposals (NeurIPS, CVPR, ICRA, ACL)
     ├── refined proposals.md      # TL;DR pitches, exigence, and prior research gap mappings
     ├── PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md # Diff report & tactical improvements on Chris's brief
+    ├── FEEDBACK_FOR_CHRIS.md     # Peer review & strategic recommendations to send to Chris
     ├── FUTURE_PLANS.md           # 12-week semester roadmap, baseline specs, compute, and deliverables
     └── domain-candidates.md      # Initial exploratory notes on candidate grids (sensors, fictional laws)
 ```

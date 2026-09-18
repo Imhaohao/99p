@@ -34,6 +34,7 @@ For comprehensive details, review the specialized research documents in [`docs/`
 | [**`docs/PUBLISHABLE_PROPOSALS.md`**](docs/PUBLISHABLE_PROPOSALS.md) | 5 publication-ready conference proposals (NeurIPS, CVPR, ICRA, IROS, ACL) | Paper authorship & project selection |
 | [**`docs/refined proposals.md`**](<docs/refined proposals.md>) | TL;DR pitches, exigence (why now?), and prior research gap mappings | Quick executive pitches & gap review |
 | [**`docs/PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md`**](docs/PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md) | Diff analysis of Chris's project brief & 6 concrete tactical improvements | Strategic review & technical roadmap |
+| [**`docs/FEEDBACK_FOR_CHRIS.md`**](docs/FEEDBACK_FOR_CHRIS.md) | Peer review & strategic recommendations to send directly to Chris | Team feedback & consensus document |
 | [**`docs/FUTURE_PLANS.md`**](docs/FUTURE_PLANS.md) | 12-week semester roadmap, baseline specs, compute resources, and risk analysis | Project management & sprint planning |
 | [**`references.bib`**](references.bib) | Curated BibTeX database of foundational and cutting-edge citations | Citation management & LaTeX drafting |
 
