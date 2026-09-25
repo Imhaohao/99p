@@ -39,15 +39,19 @@ The project bridges two complementary paradigms:
 /Users/yanzihao/Documents/honda/
 ├── README.md                     # High-level overview and landing page for researchers
 ├── references.bib                # Standard BibTeX database of relevant literature
+├── papers/                       # Primary paper PDFs and literature archive
+│   ├── README.md                 # Loaded papers index and summaries
+│   └── simlingo_2503.09594.pdf   # SimLingo (CVPR 2025) primary PDF
 └── docs/
     ├── AGENT_GUIDE.md            # [THIS FILE] Operational handbook for autonomous agents
+    ├── SIMLINGO_ANALYSIS.md      # Deep technical breakdown & tactical integration for SimLingo (CVPR 2025)
     ├── RESEARCH_PURPOSE.md       # Comprehensive problem formulation, motivation, and course requirements
     ├── LITERATURE_REVIEW.md      # Deep academic literature review, taxonomy, and research gap matrix
     ├── CURRENT_IDEAS.md          # Brainstormed application domains and baseline requirements
     ├── PUBLISHABLE_PROPOSALS.md  # 5 publication-ready conference proposals (NeurIPS, CVPR, ICRA, ACL)
     ├── refined proposals.md      # TL;DR pitches, exigence, and prior research gap mappings
     ├── PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md # Diff report & tactical improvements on Chris's brief
-    ├── FEEDBACK_FOR_CHRIS.md     # Peer review & strategic recommendations to send to Chris
+    ├── feedback.md               # Peer review & strategic recommendations for Chris and team
     ├── FUTURE_PLANS.md           # 12-week semester roadmap, baseline specs, compute, and deliverables
     └── domain-candidates.md      # Initial exploratory notes on candidate grids (sensors, fictional laws)
 ```
@@ -60,9 +64,10 @@ The project bridges two complementary paradigms:
    - OpenAI-compatible endpoint: `https://ellm.nrp-nautilus.io/v1`
    - Authorization: Bearer token provided by course infrastructure.
    - Intended use: High-throughput synthetic text generation, structured claim extraction, and LLM-as-a-judge self-critique.
-2. **Robotics / Driving Environments**:
-   - `OpenVLA` (7B parameter open vision-language-action model based on Llama-2 / Prismatic).
-   - Simulators: `CARLA`, `MetaDrive`, or lightweight 2D kinematics (`HighwayEnv` / `Gym-Duckietown`).
+2. **Robotics & Autonomous Driving Policies**:
+   - `SimLingo` (CVPR 2025 / CARLA Challenge 2024 Winner; ~800M param vision-only VLA based on InternVL-2 / Qwen2-0.5B; checkpoints at `RenzKa/simlingo` on Hugging Face). Primary recommended driving policy.
+   - `OpenVLA` (7B parameter generalist manipulation VLA based on Llama-2 / Prismatic).
+   - Simulators & Benchmarks: `CARLA Leaderboard 2.0`, `Bench2Drive` (220 routes), `MetaDrive`, or lightweight 2D kinematics (`HighwayEnv`).
 3. **Core Python Stack**:
    - PyTorch, Hugging Face `transformers`, `accelerate`.
    - Interpretability: `sae_lens`, `transformer_lens`, linear probing via `scikit-learn`.

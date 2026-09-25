@@ -28,15 +28,17 @@ For comprehensive details, review the specialized research documents in [`docs/`
 | Document | Purpose | Target Audience |
 | :--- | :--- | :--- |
 | [**`docs/AGENT_GUIDE.md`**](docs/AGENT_GUIDE.md) | Operational handbook, constraints, API keys, and execution protocols | Autonomous AI agents & new developers |
+| [**`docs/SIMLINGO_ANALYSIS.md`**](docs/SIMLINGO_ANALYSIS.md) | Deep-dive breakdown of SimLingo (CVPR 2025), VLA architecture, & Honda project integration | Research engineers & policy leads |
 | [**`docs/RESEARCH_PURPOSE.md`**](docs/RESEARCH_PURPOSE.md) | Problem formulation, dual tracks (Text vs. Policy), milestones, and deliverables | Academic advisors & research leads |
 | [**`docs/LITERATURE_REVIEW.md`**](docs/LITERATURE_REVIEW.md) | Deep literature review across SDM, VLA probing, generative simulation, and research gaps | Researchers writing paper related works |
 | [**`docs/CURRENT_IDEAS.md`**](docs/CURRENT_IDEAS.md) | Synthesis of brainstormed domains (Wildfire, E-Waste, Sensor Grid) and team discussions | Team brainstorming & ideation |
 | [**`docs/PUBLISHABLE_PROPOSALS.md`**](docs/PUBLISHABLE_PROPOSALS.md) | 5 publication-ready conference proposals (NeurIPS, CVPR, ICRA, IROS, ACL) | Paper authorship & project selection |
 | [**`docs/refined proposals.md`**](<docs/refined proposals.md>) | TL;DR pitches, exigence (why now?), and prior research gap mappings | Quick executive pitches & gap review |
 | [**`docs/PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md`**](docs/PROJECT_BRIEF_DIFF_AND_IMPROVEMENTS.md) | Diff analysis of Chris's project brief & 6 concrete tactical improvements | Strategic review & technical roadmap |
-| [**`docs/FEEDBACK_FOR_CHRIS.md`**](docs/FEEDBACK_FOR_CHRIS.md) | Peer review & strategic recommendations to send directly to Chris | Team feedback & consensus document |
+| [**`docs/feedback.md`**](docs/feedback.md) | Peer review & strategic recommendations to send directly to Chris & team | Team feedback & consensus document |
 | [**`docs/FUTURE_PLANS.md`**](docs/FUTURE_PLANS.md) | 12-week semester roadmap, baseline specs, compute resources, and risk analysis | Project management & sprint planning |
 | [**`references.bib`**](references.bib) | Curated BibTeX database of foundational and cutting-edge citations | Citation management & LaTeX drafting |
+| [**`papers/`**](papers/) | Archive of loaded research papers and preprints (including SimLingo PDF) | Primary literature inspection |
 
 ---
 

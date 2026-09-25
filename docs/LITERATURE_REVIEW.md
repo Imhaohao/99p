@@ -72,8 +72,7 @@ Mobileye's 2026 pipeline [@mobileye2026meteor] provides the state-of-the-art ind
 
 ### 4.2 Controllable Generative Simulation
 - **DriveVLM** [@drivevlm2024] & **DriveMoE** [@drivemoe2025]: Integrate vision-language architectures into modular and mixture-of-experts driving planners for scene understanding.
-- **ChatSim** [@wang2024chatsim] & **CTG++** [@zhong2023ctgplusplus]: Enable language-guided simulation editing. Users can prompt simulators using natural language to instantiate complex multi-agent interactions and rare safety-critical edge cases.
-- **SimLingo** [@simlingo2025]: Explores interactive VLA models as in-the-loop world simulators for autonomous driving.
+- **SimLingo** [@simlingo2025]: A vision-only closed-loop autonomous driving VLA model (CVPR 2025 / CARLA Challenge 2024 winner) unifying closed-loop driving, vision-language understanding (commentary & VQA), and language-action alignment. It introduces a disentangled waypoint prediction scheme (geometric path queries + temporal speed queries) and *Action Dreaming*—a data generation and evaluation technique simulating counterfactual future rollouts under a "world-on-rails" assumption and kinematic bicycle model, achieving SOTA driving on CARLA Leaderboard 2.0 and Bench2Drive without LiDAR.
 
 ### 4.3 Critical Limitations
 - **The Query-Space Bottleneck**: In both Meteor and ChatSim, the generation of scenarios is gated on *natural-language or metadata query descriptions*. If an unknown failure mode cannot be cleanly expressed by an engineer or LLM analyst in advance, the generative simulator cannot instantiate it.
