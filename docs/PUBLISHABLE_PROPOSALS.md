@@ -1,5 +1,13 @@
 # 5 Publishable Research Proposals (IEEE & Top-Tier AI Conferences)
 
+> [!WARNING]
+> **Audit (2026-09-28):**
+> - Figures such as "> 85% precision" and "> 80% failure reduction" are **targets, not results**.
+> - Several cited titles and venues were wrong; they are corrected in [`../references.bib`](../references.bib) and [`CITATION_AUDIT.md`](CITATION_AUDIT.md).
+> - The NeurIPS 2026 Interp4Discovery (Sep 2) and ICRA 2027 (Sep 16) deadlines have passed.
+>
+> The active plan merges ActAxis and SimLoop into [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md). Venue options are in §1.4 there.
+
 > **Document Type**: Formal Conference & Journal Research Proposals  
 > **Target Venues**: NeurIPS, CVPR, ICRA, IROS, ACL/EMNLP, IEEE Transactions on Intelligent Vehicles (T-IV), IEEE T-ITS  
 > **Strategic Value**: High-impact, publishable research suitable for premier academic submissions and competitive industry/graduate portfolios.

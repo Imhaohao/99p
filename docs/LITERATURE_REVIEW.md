@@ -1,5 +1,14 @@
 # Literature Review & Research Gap Analysis
 
+> [!WARNING]
+> **Audit (2026-09-28):** several descriptions here do not match the cited papers:
+> - SAFE is *Multitask Failure Detection for VLAs* (NeurIPS 2025, manipulation).
+> - ProbeAct, VLA-FAIL, RESample, RoboMonkey and RoVer are 2025–2026 **manipulation** papers, not driving.
+> - CTG++ is CoRL 2023.
+> - Mobileye's Meteor forms failure hypotheses itself; it does not wait for metadata queries.
+>
+> Use [`CITATION_AUDIT.md`](CITATION_AUDIT.md) and [`DRIVING_VLA_LITERATURE_REVIEW.md`](DRIVING_VLA_LITERATURE_REVIEW.md). The plan of record is [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md).
+
 > **Scope**: Critical state-of-the-art analysis spanning Unsupervised Slice Discovery, VLA Probing & Failure Prediction, Generative Simulation Remediation, and Automated Open-Question Discovery.  
 > **Repository Grounding**: All citations correspond to entries in [references.bib](../references.bib).
 

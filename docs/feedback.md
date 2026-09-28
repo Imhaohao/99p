@@ -1,5 +1,11 @@
 # Feedback & Strategic Upgrades: Project Brief for Driving VLA Failure Discovery
 
+> [!NOTE]
+> **Superseded in part (2026-09-28)** by [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md) (§0.2):
+> - The "prototype on OpenVLA-7B / DriveVLM" call is replaced by SimLingo. DriveVLM has no public weights or code.
+> - DRAMA is 17,785 **2-second Tokyo clips** selected by the driver's braking response. It is request-only and non-commercial, and not suitable for pre-training a CARLA policy.
+> - The Meteor query example is not from Mobileye.
+
 > **To**: Chris  
 > **From**: Jerry (`imhaohao@berkeley.edu`) & Team (Catherine, Hiram, Jason)  
 > **Context**: Review of *Project Brief — Failure Axis Discovery in Driving VLAs* (CDSS 170 / Honda Research Institute)  

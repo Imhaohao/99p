@@ -1,6 +1,8 @@
 # Agent Guide: 99P Labs / Honda Workspace
 
 > **Notice to Incoming Agents**: This document is the primary onboarding interface for autonomous agents and LLM assistants operating in this repository. Read this document first to understand the team context, operational rules, system architecture, and current task priorities.
+>
+> **Plan of record (updated 2026-09-28):** the Fall 2026 experimental design, role split, gates and venue plan are in [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md). Its §0.3 has a copy-paste prompt for orchestration agents, and §13 has the operating rules. Cite only works verified in [`CITATION_AUDIT.md`](CITATION_AUDIT.md). Where this guide conflicts with the handoff, the handoff wins.
 
 ---
 
@@ -8,7 +10,7 @@
 
 - **Course & Institution**: UC Berkeley CDSS 170 (Fall 2026) — Data Discovery Project.
 - **Industry Partner**: [99P Labs](https://99plabs.com/) / **Honda Research Institute, US** (HRI-US).
-- **Project Lead & Industry Mentor**: **Ryan Lingo** (Applied AI Research Engineer, Honda Research Institute).
+- **Project Lead & Industry Mentor**: **Ryan Lingo** (Applied AI Research Engineer & Developer Advocate, 99P Labs / Honda Research Institute USA).
 - **Student Research Team**:
   - **Jerry Yan (Zihao Yan)** (`imhaohao@berkeley.edu`) — Research Investigator / Architecture & Repository Lead.
   - **Chris** — Failure Probing & Policy Scenarios.
@@ -44,6 +46,10 @@ The project bridges two complementary paradigms:
 │   └── simlingo_2503.09594.pdf   # SimLingo (CVPR 2025) primary PDF
 └── docs/
     ├── AGENT_GUIDE.md            # [THIS FILE] Operational handbook for autonomous agents
+    ├── MASTER_HANDOFF.md         # PLAN OF RECORD: experimental design, roles, gates, venues, contacts, mentor asks
+    ├── CITATION_AUDIT.md         # Verified citations/facts with evidence (2026-09-28)
+    ├── DRIVING_VLA_LITERATURE_REVIEW.md # Corrected AutoVLA / Bench2Drive / closed-loop evaluation review
+    ├── audit/verification-2026-09-28.jsonl # Full per-record evidence ledger behind CITATION_AUDIT.md
     ├── SIMLINGO_ANALYSIS.md      # Deep technical breakdown & tactical integration for SimLingo (CVPR 2025)
     ├── RESEARCH_PURPOSE.md       # Comprehensive problem formulation, motivation, and course requirements
     ├── LITERATURE_REVIEW.md      # Deep academic literature review, taxonomy, and research gap matrix
@@ -60,14 +66,22 @@ The project bridges two complementary paradigms:
 
 ## 4. Compute Resources & Tooling Environment
 
-1. **UC Berkeley CDSS Nautilus NRP LLM API**:
-   - OpenAI-compatible endpoint: `https://ellm.nrp-nautilus.io/v1`
-   - Authorization: Bearer token provided by course infrastructure.
-   - Intended use: High-throughput synthetic text generation, structured claim extraction, and LLM-as-a-judge self-critique.
+1. **NRP Nautilus (via the CDSS Data Discovery program)**:
+   - **LLM gateway.** OpenAI-compatible endpoint `https://ellm.nrp-nautilus.io/v1`; an `/anthropic` path also exists.
+     - Tokens are self-generated at nrp.ai/llmtoken after joining the course namespace.
+     - As of Sep 2026 the roster includes vision-capable `qwen3`, `qwen3-small` and `gemma`. **The roster rotates.** Pin and log model IDs; the older "Llama-3-70B / Mistral" list is outdated.
+   - **GPUs.**
+     - Interactive pods are capped at 16 CPU / 32 GB / 6 h, so run rollouts as batch Jobs.
+     - A6000/A40/L40 and similar can be requested freely. A100 needs a quota request. H100/H200 are not user-requestable.
+   - **Other compute.** There is **no LBNL cluster called "Salvo"**; the name likely meant UC Berkeley **Savio**, which needs a faculty allowance. See `MASTER_HANDOFF.md` §1.5.
 2. **Robotics & Autonomous Driving Policies**:
-   - `SimLingo` (CVPR 2025 / CARLA Challenge 2024 Winner; ~800M param vision-only VLA based on InternVL-2 / Qwen2-0.5B; checkpoints at `RenzKa/simlingo` on Hugging Face). Primary recommended driving policy.
-   - `OpenVLA` (7B parameter generalist manipulation VLA based on Llama-2 / Prismatic).
-   - Simulators & Benchmarks: `CARLA Leaderboard 2.0`, `Bench2Drive` (220 routes), `MetaDrive`, or lightweight 2D kinematics (`HighwayEnv`).
+   - `SimLingo` (CVPR 2025): the primary policy.
+     - Model: InternVL2-1B (InternViT-300M + Qwen2-0.5B).
+     - Released: checkpoints at `RenzKa/simlingo` on Hugging Face, plus the training dataset under a Wayve non-commercial licence.
+     - Its driving-only variant SimLingo-BASE (CarLLaVA) won the CARLA Challenge 2024.
+   - `Drive-π0` (DriveMoE repo, CVPR 2026): the secondary policy (stretch).
+   - `OpenVLA` (7B, manipulation only; no driving checkpoint) is a methods reference only.
+   - Simulator and benchmark: **CARLA 0.9.15 + Bench2Drive (220 routes) + ScenarioRunner**. MetaDrive/HighwayEnv are only for early prototyping, since a CARLA-trained VLA will not transfer to them.
 3. **Core Python Stack**:
    - PyTorch, Hugging Face `transformers`, `accelerate`.
    - Interpretability: `sae_lens`, `transformer_lens`, linear probing via `scikit-learn`.
@@ -96,8 +110,8 @@ When developing methods or running experiments in this repository, agents MUST r
 
 ## 6. Current Implementation State
 
-- **Stage**: Scaffolding & Conceptual Design (Weeks 1–3).
-- **Next Immediate Tasks**:
+- **Stage**: Scaffolding & Conceptual Design (Weeks 1–3). As of 2026-09-28, follow the week-by-week plan and gates in [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md) §9. G0 (decisions locked) is Fri Oct 2.
+- **Next Immediate Tasks** (superseded by `MASTER_HANDOFF.md` §9 where they differ):
   - Implement synthetic data generation pipeline for the chosen domain with planted holdout gaps.
   - Implement activation extraction hooks for policy rollout episodes.
   - Set up baseline clustering algorithms (HDBSCAN on activations vs. HDBSCAN on output actions).

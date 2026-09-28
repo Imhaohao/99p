@@ -1,5 +1,10 @@
 # Research Purpose and Problem Formulation
 
+> [!NOTE]
+> **Update (2026-09-28):**
+> - Some publication targets below have passed: NeurIPS 2026 Interp4Discovery (Sep 2) and ICRA 2027 (Sep 16). Current options are in [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md) §1.4.
+> - Mobileye's Meteor generates its own failure hypotheses; see [`CITATION_AUDIT.md`](CITATION_AUDIT.md).
+
 > **Document Type**: Foundational Research Charter  
 > **Affiliation**: 99P Labs / Honda Research Institute, US & UC Berkeley CDSS 170 (Fall 2026)  
 > **Project Lead**: Ryan Lingo (Honda Research Institute)  

@@ -27,6 +27,9 @@ For comprehensive details, review the specialized research documents in [`docs/`
 
 | Document | Purpose | Target Audience |
 | :--- | :--- | :--- |
+| [**`docs/MASTER_HANDOFF.md`**](docs/MASTER_HANDOFF.md) | **Plan of record (Fall 2026):** experimental design, planted-gap harness, baselines, 5-role allocation, gates and timeline, venue plan, external contacts, mentor asks, orchestration-agent prompt | Team lead, orchestration agents, mentor |
+| [**`docs/CITATION_AUDIT.md`**](docs/CITATION_AUDIT.md) | Verified citations, numbers, contacts and deadlines with evidence (2026-09-28); ledger in `docs/audit/` | Everyone who cites anything |
+| [**`docs/DRIVING_VLA_LITERATURE_REVIEW.md`**](docs/DRIVING_VLA_LITERATURE_REVIEW.md) | Corrected review of AutoVLA, action tokenization, Bench2Drive and closed-loop evaluation | Researchers writing related work |
 | [**`docs/AGENT_GUIDE.md`**](docs/AGENT_GUIDE.md) | Operational handbook, constraints, API keys, and execution protocols | Autonomous AI agents & new developers |
 | [**`docs/SIMLINGO_ANALYSIS.md`**](docs/SIMLINGO_ANALYSIS.md) | Deep-dive breakdown of SimLingo (CVPR 2025), VLA architecture, & Honda project integration | Research engineers & policy leads |
 | [**`docs/RESEARCH_PURPOSE.md`**](docs/RESEARCH_PURPOSE.md) | Problem formulation, dual tracks (Text vs. Policy), milestones, and deliverables | Academic advisors & research leads |
