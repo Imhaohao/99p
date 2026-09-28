@@ -4,7 +4,7 @@
 > **Superseded in part (2026-09-28)** by [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md) (§0.2):
 > - The VLA decision is now SimLingo; OpenVLA has no driving variant and DriveVLM has no public weights.
 > - The DRAMA description is corrected: 2-second Tokyo clips, braking-response selection, request-only.
-> - The `sun_altitude < 10 AND truck_occlusion = True` Meteor example is not from Mobileye.
+> - The suggested Llama-3.2-Vision / Qwen2-VL captioners are not served on NRP; use a pinned `qwen3` or `gemma` model (handoff D7).
 > - The planted-gap scoring (Hungarian/Jaccard) is kept and extended in §4.2 of the handoff.
 
 > **Document Type**: Technical Review, Diff Analysis, and Architectural Improvements  

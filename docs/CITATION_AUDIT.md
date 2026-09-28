@@ -38,8 +38,8 @@
 
 **Policies**
 4. **DriveVLM has no public weights or code** (❌ "open-weight").
-5. OpenVLA and π₀ have no driving checkpoints. The only π₀-style driving policy is Drive-π0 in the DriveMoE repo.
-6. **SimLingo** is the only open driving VLA with weights, training data, training code and a CARLA closed-loop agent.
+5. OpenVLA and π₀ have no official driving checkpoints. The only public π₀-style driving policy found is Drive-π0 in the DriveMoE repo (initialised from PaliGemma-3B, not from π₀ weights).
+6. Of the policies named in the v1 prompt (DriveVLM, OpenVLA/π₀ variants, SimLingo), **SimLingo** is the only open-weight driving VLA with a CARLA closed-loop agent, and it also ships training data and code. Other open CARLA-capable driving VLAs exist, e.g. ORION, Drive-π0/DriveMoE and LMDrive (CARLA 0.9.10.1); see D3.
 
 **Venues**
 7. **AAAI-27 (Jul 28), ICRA 2027 (Sep 16) and ICLR 2027 (Sep 25) have passed.**
@@ -54,7 +54,7 @@
 12. **The "8-stage data-engine loop" has no public source** (🚫). Ansvar AI is a legal/compliance company (❌).
 
 **Literature review**
-13. The **AutoVLA scaling table is fabricated** (❌; the real Fig. 4 values are in the literature review §4.2).
+13. The **AutoVLA scaling table is contradicted by the paper** (❌; 1st pass: likely fabricated). The study exists only as Fig. 4; 30 of the table's 32 numbers and the "50k inflection point" are wrong. The real Fig. 4 values are in the literature review §4.2.
 14. **"10.518 s → 3.49 s"** is wrong; the paper reports 3.95 s → 1.31 s.
 15. **"AD-MLP 0.70–0.89 m L2"** is wrong; the correct figure is 0.29 m (ST-P3 metric).
 16. **"28 × 28 × 128 pixels"** is a pixel budget, not a resolution.

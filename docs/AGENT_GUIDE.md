@@ -33,6 +33,8 @@ The project bridges two complementary paradigms:
 2. **Track B (Robotics / Driving Policy Failure Discovery - Honda Interp Spec)**:
    Extracts internal activations and Sparse Autoencoder (SAE) latent features across policy rollouts (e.g., OpenVLA, trajectory planners) to discover previously unknown failure axes. Evaluated with planted data holdouts (precision/recall on discovered axes) and closed-loop sim-retraining (e.g., CARLA / MetaDrive).
 
+**Fall 2026 scope:** the plan of record ([`MASTER_HANDOFF.md`](MASTER_HANDOFF.md)) covers Track B only, on SimLingo in CARLA 0.9.15 + Bench2Drive. OpenVLA and MetaDrive are references only (§4). Track A is not in the plan.
+
 ---
 
 ## 3. Repository Directory Structure
@@ -105,6 +107,7 @@ When developing methods or running experiments in this repository, agents MUST r
 3. **Planted Gap Evaluation Metric**:
    Every dataset or rollout collection must maintain a controlled holdout split $\mathcal{G}^*$:
    $$\text{Precision} = \frac{|\mathcal{A}_{\text{discovered}} \cap \mathcal{G}^*|}{|\mathcal{A}_{\text{discovered}}|}, \quad \text{Recall} = \frac{|\mathcal{A}_{\text{discovered}} \cap \mathcal{G}^*|}{|\mathcal{G}^*|}$$
+   In the plan of record, $|\mathcal{A}_{\text{discovered}}|$ is fixed at the axis budget M = 10, so precision always divides by 10. Matching is one Hungarian assignment on Jaccard ≥ 0.5 (`MASTER_HANDOFF.md` §4.2, Appendix B).
 
 ---
 

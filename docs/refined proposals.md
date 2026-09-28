@@ -5,6 +5,7 @@
 > - Several cited titles and venues were wrong; see [`CITATION_AUDIT.md`](CITATION_AUDIT.md).
 > - Quantitative claims are targets, not results.
 > - The NeurIPS 2026 Interp4Discovery and ICRA 2027 deadlines have passed.
+> - The Meteor query example `sun_altitude < 10 AND truck_occlusion = True` is not from Mobileye. Meteor forms its own hypotheses.
 >
 > The plan of record is [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md).
 

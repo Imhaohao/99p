@@ -53,7 +53,7 @@ SimLingo, the primary policy for this project, uses a fourth pattern: **learned 
 | Action output | ✅ 10 action tokens × 0.5 s = 5 s plan. Tokens `<action_0>` … `<action_2047>` are added to the vocabulary starting at id 151665. |
 | Mode selection | ❌ "Adaptive Router". ✅ The **model itself** writes "This is a straightforward scenario…" (fast: straight to the action tokens) or "This is a complex scenario requiring additional reasoning…" (slow: chain of thought, then action tokens). |
 
-**Runtime (AutoVLA Table 2, "Runtime Analysis of Fast & Slow Thinking Modes").** ✅ The values below match two independent reproductions that cite the table. The paper does not name the GPU.
+**Runtime (AutoVLA Table 2 in a later arXiv version, v3 Nov 2025, "Runtime Analysis of Fast & Slow Thinking Modes"; in arXiv v1, Table 2 is the Bench2Drive table).** ✅ All six values appear in a student reproduction repo that cites the table, and an independent survey gives the same two averages. The primary text was not read. The GPU is unconfirmed: the survey says the table names no device, while the reproduction repo says A100.
 
 | Mode | Min (s) | Max (s) | Avg (s) |
 | :-- | --: | --: | --: |
@@ -180,7 +180,7 @@ All rows below use Bench2Drive v0.0.3 as reported in the papers. **Always state 
 | Think2Drive (privileged RL expert, not a sensor policy) | — | 91.85 | 85.41 | 269.14 | 25.97 | ✅ added, for context only |
 
 **Notes on the table.**
-- The L2 column comes from the Bench2Drive paper and was merged into AutoVLA's table by the source review.
+- The L2 column comes from the Bench2Drive paper (Table 3) and was merged into AutoVLA's table by the source review. ORION's 0.68 m was added in this correction from the ORION README, which reports it next to the same UniAD-Base (0.73) and VAD (0.91) values.
 - AutoVLA's Bench2Drive row comes from a separate model: single front camera, CARLA-Garage codebook, trained on CARLA-Garage + DriveLM-CARLA, SFT only, replanning at 2 Hz.
 - Training data differs across rows: the baselines use Think2Drive-collected data, SimLingo uses PDM-Lite. The comparison is therefore not controlled.
 
@@ -262,12 +262,12 @@ These are plausible and useful as **hypotheses for failure axes**, but they were
 | 100k | 71.79 / 73.62 | 93.26 / 94.18 | 0.76 / 1.04 | 0.39 / 0.40 |
 | 185k | 74.97 / 80.54 | 95.19 / 96.89 | 0.70 / 0.86 | 0.31 / 0.35 |
 
-**Findings (paper text).**
-- More data consistently helps.
-- On nuPlan, CoT trails action-only below 100k and overtakes it by 100k.
-- On nuScenes, action-only wins at every scale.
+**Findings.**
+- More data consistently helps (paper text).
+- On nuPlan, the text says CoT does not beat action-only "when using fewer than 50k training samples". The Fig. 4 labels show it is still behind at 50k (61.38 vs 65.19 PDMS) and ahead at 100k (73.62 vs 71.79).
+- On nuScenes, action-only is better at every scale (Fig. 4; the text says action-only gives better L2 and collision rate).
 
-**Implication for us.** The amount of targeted repair data matters, so sweep it (5k / 20k / 50k frames).
+**Implication for us.** The amount of targeted repair data matters. The handoff pre-registers 20k frames as the primary volume and sweeps 5k / 50k for the targeted condition.
 
 ### 4.3 Waymo end-to-end results
 

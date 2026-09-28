@@ -10,12 +10,14 @@
 > **BibTeX Key**: `@simlingo2025` / `@Renz2025cvpr` in [`references.bib`](../references.bib)
 
 > [!WARNING]
-> **Errata (2026-09-28).** Several numbers in the original version of this file did not match the paper. §4 and §5.1 now hold values checked against the PDF and the repository ([`CITATION_AUDIT.md`](CITATION_AUDIT.md)). Specifically:
-> - the LB2.0 RC/IS columns are corrected;
+> **Errata (2026-09-28).** Several numbers in the original version of this file did not match the paper. §1, §4, §5.1 and §5.4 now hold values checked against the PDF and the repository ([`CITATION_AUDIT.md`](CITATION_AUDIT.md)). Specifically:
+> - LB2.0 table: RC/IS columns corrected, plus DS for TF++ (5.16 → 5.18) and CaRINA hybrid (1.48 → 1.23). The unsourced "+18.1% RC / +14.3% IS" ablation gains and the "Static Collisions" column are removed; the paper gives only +39.9% DS and zero static collisions;
 > - Bench2Drive TCP-traj SR is 20.45, not 38.18;
 > - the "Think2Drive 67.45/54.09" row is removed (it appears in no source);
 > - SimLingo-BASE on Bench2Drive is 85.94/66.82, not 85.12/67.73;
-> - the unsourced "< 4 GB VRAM" claim is replaced.
+> - the unsourced "< 4 GB VRAM" claim is replaced;
+> - model size ~800M → ~1B (InternVL2-1B); the DriveVLM column is corrected (9.6B, no public code or weights); §5.4 LoRA r = 16 → the released r = 32 / α = 64;
+> - §5.2–§5.4 predate the plan of record and are superseded by `MASTER_HANDOFF.md` §4.2–§4.4. The SAE width is 8×–32× of d = 896 (7,168–28,672 latents), not 16,384. There is no `sidewalk_pedestrian_near_miss` category: the Action Dreaming categories are Faster, Slower, Target Speed, Lane Change and Objects, and withholding dreaming data does not plant a driving gap. Commentary/CoT is never given to the describability model. Targeted data is a PDM-Lite frame sweep (20k primary; 5k / 50k), not "500 targeted rollouts".
 >
 > The plan of record is now [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md). SimLingo remains the primary policy there.
 
@@ -28,7 +30,7 @@ In autonomous driving research, integrating Large Language Models (LLMs) and Vis
 - **VLM/VQA-centric models** (e.g., DriveLM, Lingo-1, DriveVLM) answer static questions about driving scenes but frequently produce language outputs that contradict their actual steering and throttle actions, or they only evaluate on open-loop logs (NuScenes) without closed-loop survival capabilities.
 
 **SimLingo** resolves this dichotomy. It is a lightweight (~1B-parameter, InternVL2-1B) **vision-only Vision-Language-Action (VLA)** model that simultaneously handles:
-1. **Closed-loop autonomous driving** (winning entry of the CARLA Challenge 2024 and SOTA on Bench2Drive).
+1. **Closed-loop autonomous driving** (state of the art on Bench2Drive at publication, 85.07 DS; its driving-only base model SimLingo-BASE/CarLLaVA won the CARLA Challenge 2024. Newer methods now score higher, e.g. LEAD 95.59 vs SimLingo 86.55 DS under Bench2Drive v0.0.4).
 2. **Vision-language scene understanding** (Chain-of-Thought driving commentary and DriveLM VQA).
 3. **Language-action alignment via "Action Dreaming"** (synthesizing and evaluating counterfactual instruction-following futures without executing unsafe actions).
 
@@ -156,7 +158,7 @@ Paper Table 1, official LB2.0 test server, **SENSORS** track (the MAP track is i
 | Zero-shot TF++ (LB 1.0 model) | LiDAR + Camera | 0.58 | 8.53 | 0.38 |
 | **CaRINA hybrid** | LiDAR + Camera | 1.23 | 9.56 | 0.31 |
 | **TransFuser++ (TF++)** | LiDAR + Camera | 5.18 | 11.34 | 0.48 |
-| **SimLingo-BASE** (= CarLLaVA; 50M-parameter LLaMA-style transformer, no language) | **Camera only** | **6.87** | **18.08** | **0.42** |
+| **SimLingo-BASE** (= CarLLaVA; LLaVA CLIP-ViT encoder + 50M-parameter LLaMA-style decoder trained from scratch; no language) | **Camera only** | **6.87** | **18.08** | **0.42** |
 
 *Output-representation ablation (paper):* disentangled path + speed waypoints raise DS by **39.9%** over entangled waypoints and cut layout (static) collisions from 0.68 to 0.
 
@@ -164,7 +166,7 @@ Paper Table 1, official LB2.0 test server, **SENSORS** track (the MAP track is i
 > Per the paper, SimLingo-BASE is the only camera-only entry on the LB2.0 leaderboard among entries with a method report. It won the 2024 CARLA Challenge. The full SimLingo VLA was **not** submitted to LB2.0: the leaderboard closed in June 2024.
 
 ### 4.2 Bench2Drive (Local Benchmark - 220 Routes)
-Bench2Drive evaluates closed-loop autonomy across 220 distinct safety-critical scenarios in CARLA:
+Bench2Drive evaluates closed-loop driving on 220 short routes (≈ 150 m each) in CARLA 0.9.15: 44 interactive scenario types × 5 routes each.
 
 Paper Table 2 (Bench2Drive v0.0.3 protocol, 220 routes). The Bench2Drive v0.0.4 README (Aug 2026) lists SimLingo at 86.55 / 70.45, so always state the version.
 
@@ -200,7 +202,7 @@ In our initial discussions (see [`docs/feedback.md`](feedback.md) and [`docs/PRO
 | **Domain Grounding** | Robot manipulation (Open X-Embodiment) | Driving scene understanding | **End-to-End Driving (CARLA LB 2.0 / Bench2Drive)** |
 | **Action Output** | 7-D end-effector actions as discretized tokens | Trajectory waypoints | **Disentangled Path + Speed Waypoints** |
 | **Closed-Loop CARLA** | None (would need a custom driving port) | None (nuScenes + in-house SUP-AD only) | **SimLingo-BASE won the CARLA Challenge 2024** |
-| **Rollout GPU memory** | 7B-class | n/a (no public weights) | **≈ 11 GB during CARLA eval on a 16 GB card (user report, GitHub issue #95); ~0.05–0.08× real time** |
+| **Rollout GPU memory** | 7B-class | n/a (no public weights) | **≈ 11.4 GB whole-GPU usage with the CARLA server and the agent on one 16 GB RTX 4060 Ti (user report, GitHub issue #95; model-only memory not yet measured); ≈ 0.045–0.065× real time there, ≈ 0.08× on an A6000 with inference_skip = 5 (third-party fork)** |
 | **Weights Availability** | Hugging Face (`openvla/openvla-7b`) | **No public code or weights** | **Hugging Face (`RenzKa/simlingo`) + training dataset (Wayve non-commercial licence)** |
 
 **Tactical Decision**: Adopt **SimLingo as the primary VLA policy for Track B and Workstream A**.

@@ -1,12 +1,15 @@
 # 99p: Unsupervised Failure Axis & Open-Question Discovery
 
+> [!NOTE]
+> **Plan of record (2026-09-28): [`docs/MASTER_HANDOFF.md`](docs/MASTER_HANDOFF.md).** Venues are in its §1.4; planted gaps default to Mode B (§4.2). Figures in §3 below are targets, not results. Citations are corrected in [`docs/CITATION_AUDIT.md`](docs/CITATION_AUDIT.md).
+
 [![Institution: UC Berkeley](https://img.shields.io/badge/Institution-UC%20Berkeley%20CDSS%20170-blue.svg)](https://cdss.berkeley.edu/)
 [![Partner: 99P Labs](https://img.shields.io/badge/Partner-99P%20Labs%20%2F%20Honda%20Research%20Institute-red.svg)](https://99plabs.com/)
 [![Track: NeurIPS / CVPR / ICRA](https://img.shields.io/badge/Target-NeurIPS%20%7C%20CVPR%20%7C%20ICRA%20%7C%20ACL-purple.svg)](docs/PUBLISHABLE_PROPOSALS.md)
 
 > **Discovering what a system does not know, without having to predefine the taxonomy of ignorance in advance.**
 
-This repository hosts research conducted in collaboration with **99P Labs / Honda Research Institute, US** and **UC Berkeley CDSS 170 (Fall 2026)**, mentored by **Ryan Lingo** (Applied AI Research Engineer, Honda Research Institute).
+This repository hosts research conducted in collaboration with **99P Labs / Honda Research Institute, US** and **UC Berkeley CDSS 170 (Fall 2026)**, mentored by **Ryan Lingo** (Applied AI Research Engineer & Developer Advocate, 99P Labs / Honda Research Institute USA).
 
 ---
 
@@ -53,8 +56,8 @@ We have formulated five high-impact, conference-grade research proposals designe
    - **TL;DR**: Decomposes intermediate VLA activations using overcomplete Sparse Autoencoders (SAEs) to discover monosemantic, steerable failure axes without predefined labels.
    - **Exigence & Gap**: Fleet scaling stalls on unknown unknowns. Solves the scalar-only prediction limitation in [SAFE (2025)](references.bib) and input-space bias in [Domino (ICLR 2022)](references.bib).
 2. [**SimLoop (IEEE ICRA / IROS / T-IV)**](docs/PUBLISHABLE_PROPOSALS.md#proposal-2-simloop--closing-the-loop-on-discovered-failure-modes-via-controllable-scenario-diffusion-and-active-fine-tuning):  
-   - **TL;DR**: Inverts discovered activation failure clusters into parametric simulation scenarios (CARLA/CTG++) to actively retrain policies and eliminate failure modes ($>80\%$ failure reduction).
-   - **Exigence & Gap**: Discovering failure is useless without retraining. Automates the manual query bottleneck in [Mobileye Meteor/Genario (2026)](references.bib) and static gap bounds in [RESample (ICRA 2024)](references.bib).
+   - **TL;DR**: Inverts discovered activation failure clusters into parametric simulation scenarios (CARLA/CTG++) to actively retrain policies and eliminate failure modes (target: $>80\%$ failure reduction).
+   - **Exigence & Gap**: Discovering failure is useless without retraining. Automates the manual query bottleneck in [Mobileye Meteor/Genario (2026)](references.bib) and static gap bounds in [RESample (arXiv 2025)](references.bib).
 3. [**SpecGap (ACL / EMNLP / NeurIPS AI for Science)**](docs/PUBLISHABLE_PROPOSALS.md#proposal-3-specgap--contrastive-claim-evidence-provenance-graphs-for-falsifiable-open-question-discovery):  
    - **TL;DR**: Transforms scientific literature into atomic claim-evidence provenance graphs to detect cross-paper tensions and surface falsifiable open research questions.
    - **Exigence & Gap**: AI science suffers from hallucinated, ungrounded ideas. Replaces subjective scoring in [The AI Scientist (2024)](references.bib) with objective planted holdouts and [Evidence-Based Backtesting (2026)](references.bib).
@@ -63,7 +66,7 @@ We have formulated five high-impact, conference-grade research proposals designe
    - **Exigence & Gap**: Monolithic driving models ([DriveVLM (2024)](references.bib)) obscure whether crashes stem from sensor degradation or reasoning collapse across the 80-slot sensor reliability grid.
 5. [**AutoCurriculum-VLA (ICLR / CoRL)**](docs/PUBLISHABLE_PROPOSALS.md#proposal-5-autocurriculum-vla--self-critiquing-policy-introspection-for-targeted-counterfactual-edge-case-discovery):  
    - **TL;DR**: Converts passive rollouts into active introspection: surges in epistemic uncertainty trigger an adversarial LLM to apply minimal counterfactual scene mutations, mapping the policy failure frontier.
-   - **Exigence & Gap**: Passive fleet testing requires millions of miles per edge case. Upgrades static monitors in [RoboMonkey (IROS 2025)](references.bib) and [ReasonBreak (NeurIPS 2025)](references.bib) into an active self-critique curriculum.
+   - **Exigence & Gap**: Passive fleet testing requires millions of miles per edge case. Upgrades static monitors in [RoboMonkey (CoRL 2025)](references.bib) and [ReasonBreak (arXiv 2026)](references.bib) into an active self-critique curriculum.
 
 ---
 
