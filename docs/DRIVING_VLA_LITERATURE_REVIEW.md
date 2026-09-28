@@ -253,7 +253,7 @@ These are plausible and useful as **hypotheses for failure axes**, but they were
 
 ### 4.2 Data scaling (AutoVLA Fig. 4) — corrected
 
-❌ **The source's scaling "table" is fabricated.** The paper shows scaling only as Fig. 4, with nuPlan + nuScenes training mixtures of 10k / 50k / 100k / 185k samples. The values below are the **data labels printed on Fig. 4**, read from the figure through a mirror of arXiv v1. Each cell is action-only / CoT.
+❌ **The source's scaling "table" is contradicted by the paper** (audit 2nd pass; 1st pass: likely fabricated). The paper shows scaling only as Fig. 4, with nuPlan + nuScenes training mixtures of 10k / 50k / 100k / 185k samples. The values below are the **data labels printed on Fig. 4**, read from the figure through a mirror of arXiv v1. Each cell is action-only / CoT.
 
 | Samples | nuPlan PDMS ↑ | nuPlan no-at-fault collision ↑ | nuScenes L2 (m) ↓ | nuScenes collision (%) ↓ |
 | --: | :-- | :-- | :-- | :-- |

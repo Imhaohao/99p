@@ -5,7 +5,7 @@
 
 [![Institution: UC Berkeley](https://img.shields.io/badge/Institution-UC%20Berkeley%20CDSS%20170-blue.svg)](https://cdss.berkeley.edu/)
 [![Partner: 99P Labs](https://img.shields.io/badge/Partner-99P%20Labs%20%2F%20Honda%20Research%20Institute-red.svg)](https://99plabs.com/)
-[![Track: NeurIPS / CVPR / ICRA](https://img.shields.io/badge/Target-NeurIPS%20%7C%20CVPR%20%7C%20ICRA%20%7C%20ACL-purple.svg)](docs/PUBLISHABLE_PROPOSALS.md)
+[![Target: RSS 2027 / IEEE IV 2027](https://img.shields.io/badge/Target-RSS%202027%20%7C%20IEEE%20IV%202027-purple.svg)](docs/MASTER_HANDOFF.md)
 
 > **Discovering what a system does not know, without having to predefine the taxonomy of ignorance in advance.**
 
@@ -81,7 +81,7 @@ $$\text{Precision} = \frac{|\mathcal{A}_{\text{discovered}} \cap \mathcal{G}^*|}
 ### 4.2 Catherine's Three Mandatory Baselines
 To prove that internal representations provide genuine signal over superficial heuristics, any proposed method must outperform:
 1. **Baseline 1 (Random Data Collection)**: Uniform random sampling of data slices or candidate questions.
-2. **Baseline 2 (Predefined Human Taxonomy)**: Standard human heuristic categorization (e.g., Weather $\times$ Lighting $\times$ Maneuver).
+2. **Baseline 2 (Predefined Human Taxonomy)**: Standard human heuristic categorization: top single-factor strata of benchmark metadata (scenario family, weather, town or ability), not cross-products. This is B1 in [MASTER_HANDOFF §5.1](docs/MASTER_HANDOFF.md); factor pairs are the separate B2+ baseline.
 3. **Baseline 3 (Behavioral / Output-Only Clustering)**: Clustering scenario failures based solely on output trajectory loss, action deviations, or collision telemetry—**without looking at internal activations**.
 
 ---

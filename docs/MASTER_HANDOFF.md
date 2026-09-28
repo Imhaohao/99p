@@ -94,7 +94,8 @@ Term goal:
 Hard rules:
   1. Never read, infer or request anything under sealed/, in P4-only metadata tables, or in Fail2Drive
      per-scenario SimLingo results before P4 reveals the key (planned Fri 2026-11-13; the Nov 3 scoring
-     report shares only which axes matched which gap IDs). Full rules: MASTER_HANDOFF §13.
+     report shares only per-tier metrics and which axes matched which gap IDs and tiers; no predicates
+     or salt). Full rules: MASTER_HANDOFF §13.
   2. Cite only works verified in CITATION_AUDIT.md; add new ones there with evidence first.
   3. Never present targets or aspirations as results.
   4. Every experiment = committed config under configs/ + a run record under results/.
@@ -133,7 +134,7 @@ Weekly loop:
 
   On control gaps (T0), the non-residualized activation variants and the baselines should be comparable.
 
-  *Falsified if* the best activation method's T2 recall@10 does not beat the best baseline (decision rule in §9.1).
+  *Falsified if* §9.1 criterion 2 fails: the best activation method does not have a higher T2 recall@10 than every baseline, **or** its T2 mean best Jaccard is not at least 0.15 above the best baseline's with a 95% CI that excludes 0.
 - **H2 (actionability).** Discovered axes that pass the describability gate can be turned into scenario parameters that **reproduce** the failure (failure rate ≥ 2× nominal and ≥ 30%).
 
   *Falsified if* reproduction rates for gated axes are no better than for random axes (B0).
@@ -201,10 +202,9 @@ These outcomes adapt the three in the team brief (`PROJECT_BRIEF_DIFF_AND_IMPROV
 | Honda / HRI-US data | See the sub-list below the table | Optional real-world describability check only (§11) |
 
 **Budget detail (estimates):**
-- *Rollouts:* SimLingo runs at about 0.05–0.065× real time on an RTX 4060 Ti, with ≈ 11 GB whole-GPU usage including the CARLA server (user report, issue #95). A third-party fork (zhumorui/simlingo_f2d) reports ≈ 60 min wall-clock per 300 game-seconds on an A6000 with `inference_skip=5`, i.e. the VLM runs every 5th frame and controls are reused in between. That is not the released agent's configuration, so expect lower throughput with per-frame inference and fix the budget from the G1 measurement. Thousands of rollouts (`R_dev`, `R_test`, plus P4's efficacy pilots at ≈ 60 rollouts per candidate tried) therefore cost **≈ 300–1,000 GPU-hours**.
+- *Rollouts:* SimLingo runs at about 0.045–0.065× real time on an RTX 4060 Ti, with ≈ 11.4 GB whole-GPU usage including the CARLA server (user report, issue #95). A third-party fork (zhumorui/simlingo_f2d) reports ≈ 60 min wall-clock per 300 game-seconds on an A6000 with `inference_skip=5`, i.e. the VLM runs every 5th frame and controls are reused in between. That is not the released agent's configuration, so expect lower throughput with per-frame inference and fix the budget from the G1 measurement. Thousands of rollouts (`R_dev`, `R_test`, B2's sim-rendered factor rollouts (factors × levels × runs; W3–W4, from the committed B2 config, done before `test-outputs-v1`), plus P4's efficacy pilots at ≈ 60 rollouts per candidate tried) therefore cost **≈ 300–1,000 GPU-hours**.
 - *Closed loop (W6–W8):*
   - reproduction tests at ≈ 50 rollouts per gated axis;
-  - B2 sim-rendered factor rollouts (factors × levels × runs);
   - held-out gap-slice and other-gap rollouts for every repaired checkpoint;
   - bench2drive220 regression for the targeted model.
 
@@ -331,7 +331,7 @@ Each stage lists inputs, procedure, outputs and pass criteria. Parameters marked
 | `R_nom` | Reproduction + regression | bench2drive220 (44 scenarios × 5 routes) | 220 × 3 seeds | everyone |
 | `R_dev` | Method development | Bench2Drive-style short routes across scenario families, with weather × town jitter, plus **2 public practice gaps** (the §4.2 example predicates) | 600–1,000 | everyone |
 | `R_test` | Blind scoring | Same generator plus **4–6 sealed gaps** and **2 decoy families**. P4 injects each at 4–8% of `R_test`; all injected slices together are ≤ 40%, and each slice is ≥ the power-analysis n and ≥ 60 rollouts. `R_dev`'s practice-gap regions are excluded. | 1,500–2,500 (budget fixed at G1) | activations, outcome and failure-type labels, front RGB + BEV frames (for the gate, B4 and B5), and PDM-Lite shadow residuals. **No** scenario metadata, route XML, per-frame privileged state or structured summaries until the key reveal. |
-| `R_gen` | Closed-loop data | Scenarios sampled from reproducing axes | 5k / 20k / 50k expert frames per axis | everyone (after the key reveal) |
+| `R_gen` | Closed-loop data | Scenarios sampled from reproducing axes | 5k / 20k / 50k expert frames per axis | everyone (sampled from committed specs; no key content). The `C-oracle` portion is withheld from P2/P3/P5 until the key reveal. |
 
 **Failure labels (dense, per frame).**
 1. **Infraction events** from the CARLA/Bench2Drive criteria: collisions (vehicle / pedestrian / layout), red light, stop sign, off-road, route deviation, agent blocked, yield-to-emergency-vehicle, timeout. Log CARLA's minimum-speed infraction but do not count it as a failure, since Bench2Drive (≥ v0.0.2) excludes it from DS, SR and ability scores. The failure window is `[t_event − 3 s, t_event]` **(pre-register)**.
@@ -376,7 +376,7 @@ Include early, middle and late layers in the sweep. On ORION, navigation command
 | **B: novel-by-construction** (Fall 2026 default) | Use the released checkpoint. Gaps are scenario regions **absent from SimLingo's released training data**: Fail2Drive's unseen scenarios and novel assets (IROS 2026; CARLA 0.9.15; SimLingo is among the evaluated models), plus P4-built parameter regions outside SimLingo's collection distribution. P4 checks absence against the released dataset and collection configs (spawn-distance jitter ±10%, weather augmentation, Towns 1–10/12/13). | ≈ 0 GPU-h | Strong for unseen-condition gaps. P4 documents the out-of-distribution rationale for every gap. |
 | **A: withholding** (gold standard; after Dec 4, see D5) | Remove the gap slices from SimLingo's released dataset (≈ 16k routes and ≈ 2.04M images in the "all" bucket, per issue #76). Also drop their VQA, commentary and dreamer labels. Retrain from InternVL2-1B, and train a **matched in-house full-data control** rather than comparing against the released checkpoint, because reproduction variance is large. | ≈ 192 A100-h per model (paper recipe); the released config differs (global batch 64 vs 96) | Matches the "data gap" hypothesis exactly. It also allows **model diffing** between the gapped and control models (optional method M4). |
 
-**Blinding for Mode B.** Fail2Drive publishes per-scenario results for SimLingo. P2, P3 and P5 must not consult them before the key reveal.
+**Blinding for Mode B.** Fail2Drive publishes per-scenario results for SimLingo. P1, P2, P3 and P5 must not consult them before the key reveal.
 
 **Gap tiers in the test key (K = 4–6), plus decoys.**
 - **T0 control (1–2):** perceptual or environmental, e.g. a weather/lighting preset family or a Fail2Drive visual-noise asset. Every competent method should find it. If none does, the harness is broken.
@@ -420,7 +420,7 @@ Give Way covers only 2 scenario types (10 routes), so it is noisy. Natural failu
    - (i) causal-check results, with pre-registered α and control directions;
    - (ii) `scenario_spec.json` for every gated axis, including the H3 target axis.
 
-   P4 chooses the H3 target by a pre-registered rule and announces only its axis ID: the highest-ranked gated, causally supported axis of the primary activation method that matched a P4-built (non-Fail2Drive) T2 gap. After the reveal, anyone can check the hash. P4 builds `C-oracle`. Specs changed after the reveal are labelled post-hoc variants.
+   P4 chooses the H3 target by a pre-registered rule and announces only its axis ID: the highest-ranked gated, causally supported axis of the primary activation method that matched a P4-built (non-Fail2Drive) T2 gap and reproduces (§4.4). Such candidates are reproduction-tested in rank order even if they fall outside the top-3 cap. After the reveal, anyone can check the hash. P4 builds `C-oracle`. Specs changed after the reveal are labelled post-hoc variants.
 
 **Scoring (pre-register; Appendix B).**
 - **Axes.** Each method outputs a ranked list of at most **M = 10** axes; clusters are ranked by failure-rate lift × support.
@@ -435,6 +435,7 @@ Give Way covers only 2 scenario types (10 routes), so it is noisy. Natural failu
 
 **Statistics.**
 - **Seeds.** Each method has one pre-registered primary config. Stochastic methods run 3 seeds and scores are averaged over seeds; B0 is averaged over 1,000 draws.
+- **Primary activation method.** One of M1–M3, with its preprocessing variant, is named as primary in the B0 config hashed on Fri Oct 9 and again in `prereg-v1`. B0's set sizes and the H3 target rule (sealing step 5) use it. It is fixed in advance and is separate from the "best" activation method that §9.1 selects after scoring.
 - **Primary test.** §9.1 criterion 2 is a single test, so no correction is applied. Its CI comes from a bootstrap that resamples **routes** (clusters of rollouts), re-scores, and re-selects both "best" methods in every replicate.
 - **Secondary.** Tier-wise comparisons are secondary, Holm-corrected and labelled exploratory. With only 2–3 T2 gaps, results are conditional on the planted gaps, so per-gap results are always reported.
 
@@ -509,7 +510,7 @@ Axes whose effect is below the 95th percentile of the controls are marked **"cor
 3. Clip to physically plausible bounds, and have Ryan / HRI-US review them (§11).
 4. ChatScene's Scenic retrieval pipeline is a reusable reference for language → scenario code.
 
-**Reproduction test.** Run the current policy on 50 sampled scenarios. The axis **reproduces** if its failure rate is ≥ 2× the nominal rate and ≥ 30%. The nominal rate is the failure rate of the same scenario class under the default generator distribution on `R_dev`. If the G1 budget requires it, cap the test at the top-3 gated axes per method (including B0); validated precision is then computed over those axes only.
+**Reproduction test.** Run the current policy on 50 sampled scenarios. The axis **reproduces** if its failure rate is ≥ 2× the nominal rate and ≥ 30%. The nominal rate is the failure rate of the same scenario class under the default generator distribution on `R_dev`. If the G1 budget requires it, cap the test at the top-3 gated axes per method (including B0); untested axes then count as not validated, and validated precision is still `(matched + validated-natural) / M` with M = 10 (Appendix B).
 
 **Targeted data (P1 + P5).** Run the PDM-Lite expert on scenarios from reproducing axes, using routes and seeds disjoint from every evaluation set. Record SimLingo-format samples with the repo's collection scripts. The primary volume is **20k frames (pre-register)**. The 5k / 50k sweep applies to the targeted condition only and may move to RSS Stage 2. AutoVLA's data-scaling figure (Fig. 4) shows that volume matters: on nuPlan, CoT supervision trails action-only training up to 50k samples and overtakes it by 100k, and on nuScenes action-only is better at every scale.
 
@@ -711,8 +712,8 @@ The owners are a **proposed default** drawn from the roles in `docs/AGENT_GUIDE.
 
 | Role | Proposed owner | Scope | Blinding |
 | :-- | :-- | :-- | :-- |
-| **P1: Sim, infra and rollouts** | Jason (data engineering) | CARLA 0.9.15 + Bench2Drive on NRP/Savio; SimLingo agent; hooks; batch Jobs; activation store; PDM-Lite shadow labels; data generation; A100 quota | Runs P4's `R_test` generator from an **opaque** config and never reads the predicates. Runs B0–B3 and the frozen pipeline by committed script. |
-| **P2: Discovery and interpretability** | Chris (failure probing) | Layer sweep; M1–M4; P-resid; causal checks; B4, B6 | **Blind** until the key reveal (Nov 13); sees the Nov 3 scoring report (matches only) |
+| **P1: Sim, infra and rollouts** | Jason (data engineering) | CARLA 0.9.15 + Bench2Drive on NRP/Savio; SimLingo agent; hooks; batch Jobs; activation store; PDM-Lite shadow labels; data generation; A100 quota | Runs P4's `R_test` generator from an **opaque** config and never reads the predicates or Fail2Drive's per-scenario SimLingo results before the key reveal. Runs B0–B3 and the frozen pipeline by committed script. |
+| **P2: Discovery and interpretability** | Chris (failure probing) | Layer sweep; M1–M4; P-resid; causal checks; B4, B6 | **Blind** until the key reveal (Nov 13); sees the Nov 3 scoring report (matches, tiers and per-tier metrics only) |
 | **P3: Describability and scenarios** | Hiram (pipeline integration) | Gate + validation; scenario schema → route XML / OpenSCENARIO; bounds checker; B5; co-authors the B2 list and the B0–B3 configs | **Blind** until the key reveal |
 | **P4: Harness, key and baselines** | Catherine (evaluation and rigor) | Gap design (Mode B; Mode A after Dec 4), efficacy check, sealing, `R_test` composition, B0–B3 scoring, scoring, statistics, and the harness sections of the pre-registration (tiers, efficacy thresholds, prevalence, scoring, statistics) | **Sole key holder.** Never writes, tunes or runs discovery methods, the gate, the B2 list or any baseline config. Receives the B2 list only after `key-sealed-v1`. |
 | **P5: Repair, prior art and paper** | Jerry (repo lead) | LoRA repair + controls; regression; co-authors the B0–B3 configs; compiles and freezes `harness/PREREGISTRATION.md` (`prereg-v1`); weekly prior-art sweep; `references.bib` + `CITATION_AUDIT.md`; LaTeX; outreach log | **Blind** until the key reveal |
@@ -723,7 +724,7 @@ The owners are a **proposed default** drawn from the roles in `docs/AGENT_GUIDE.
 - **P1 → all:** `rollouts` table + activation shards (A.1).
 - **P2 → P3, P4:** `axes.json` (A.2).
 - **P3 → P1, P5:** `scenario_spec.json` (A.3) + gate report.
-- **P4 → all:** scoring report (Tue Nov 3; matches only), then key and salt at the key reveal (Fri Nov 13).
+- **P4 → all:** scoring report (Tue Nov 3; matches, tiers and per-tier metrics only), then key and salt at the key reveal (Fri Nov 13).
 - **P5 → all:** repair checkpoints + regression report.
 
 **Rhythm.**
@@ -741,10 +742,10 @@ Calendar weeks start **Mon 2026-09-28**. Course milestones: the midterm checkpoi
 | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
 | W0 | Sep 28 – Oct 2 | NRP namespace + A100 request; Savio faculty-sponsor request via program staff (O2); CARLA 0.9.15 + Bench2Drive container; SimLingo smoke test; storage (~150 GB activations) | Offline hook code; read Group A | Scenario schema v0; B2 list with P5, **frozen + hashed at G0** | Audit SimLingo data and collection configs + Fail2Drive; public practice gaps | Outreach (§10); mentor meeting (§11), incl. sponsor-review lead time; create the Appendix E layout, `harness/PREREGISTRATION.md` skeleton and `logs/outreach.md` | **G0 (Fri Oct 2): D1–D9 ratified; roles and team lead confirmed; B2 hash committed** |
 | W1 | Oct 5 – 9 | bench2drive220 × 1 seed (CoT off); hooks in the closed-loop agent; lossless replay inputs; PDM-Lite shadow prototype | Determinism test; store reader; M1/M2 prototypes | Gate prototype; bounds checker; B0–B3 configs with P5 and P1 | Mode-B candidates (after the B2 hash) → efficacy pilots (≥ 30 slice rollouts each; ≥ 60 slice / ≥ 120 neighbourhood where budget allows, continuing into W2); harness pre-registration sections | LoRA dry run; B0–B3 configs with P3 | B0–B3 configs hashed (Fri Oct 9) |
-| W2 | Oct 12 – 16 | 200-rollout all-layer pilot on `R_dev` (incl. the 2 practice gaps); throughput | Layer sweep on the all-layer pilot (probe AUROC, probe R², practice-gap recall of M1/M2 prototypes); pick layers before `R_test` launches | Gate validation on practice gaps | Power analysis; finalize tiers, prevalence and decoys; T2 validity check; harness sections to Ryan (Wed Oct 14) | Compile `harness/PREREGISTRATION.md` (incl. layers); related-work draft | **G1 (Fri Oct 16): DS ≥ 75 (CoT off), determinism, rollout budget and layers fixed; `prereg-v1` tagged** |
-| W3 | Oct 19 – 23 | Generate the rest of `R_dev` (600–1,000 total) at the selected layers; launch `R_test` (opaque config) after the seal | M1–M3 v1 on `R_dev`; B4, B6 | B5; gate on dev axes | **Seal key (`key-sealed-v1`) before `R_test` launches (Mon Oct 19)**; then receive the B2 list | B0–B3 runner scripts with P1; related-work draft | — |
+| W2 | Oct 12 – 16 | 200-rollout all-layer pilot on `R_dev` (incl. the 2 practice gaps); throughput | Layer sweep on the all-layer pilot (probe AUROC, probe R², practice-gap recall of M1/M2 prototypes); pick layers before `R_test` launches | Gate validation on practice gaps; gate section of the pre-registration (AUROC validation) to Ryan (Wed Oct 14) | Power analysis; finalize tiers, prevalence and decoys; T2 validity check; harness sections to Ryan (Wed Oct 14) | Compile `harness/PREREGISTRATION.md` (incl. layers); related-work draft | **G1 (Fri Oct 16): DS ≥ 75 (CoT off), determinism, rollout budget and layers fixed; `prereg-v1` tagged** |
+| W3 | Oct 19 – 23 | Generate the rest of `R_dev` (600–1,000 total) at the selected layers; launch `R_test` (opaque config) after the seal; B2 sim-rendered factor rollouts (committed B2 config; finish before `test-outputs-v1`) | M1–M3 v1 on `R_dev`; B4, B6 | B5; gate on dev axes | **Seal key (`key-sealed-v1`) before `R_test` launches (Mon Oct 19)**; then receive the B2 list | B0–B3 runner scripts with P1; related-work draft | — |
 | W4 | Oct 26 – 30 | `R_test` complete; after `methods-frozen-v1`, run the committed pipeline (every method + B0–B3) → `test-outputs-v1` | Tune on `R_dev` only → commit → `methods-frozen-v1` | Freeze the gate (part of `methods-frozen-v1`); the frozen pipeline runs it on all axes | Commit the hash of the P4-only metadata export; dry-run the scoring code on the `R_dev` practice gaps | Start the IV-2027 skeleton in case G3 picks IV | **G2 (Fri Oct 30): `methods-frozen-v1`, then `test-outputs-v1` (all outputs committed)** |
-| W5 | Nov 2 – 6 | Replays for causal checks | Causal checks (pre-registered α and control directions) | Gate stats per method; scenario specs for gated axes | **Single scoring run + scoring report (Tue Nov 3; matches only, no predicates)**; efficacy re-check on `R_test`; statistics | Results draft | **G3 (Fri Nov 6): decision with Ryan (§9.1) + venue choice** |
+| W5 | Nov 2 – 6 | Replays for causal checks | Causal checks (pre-registered α and control directions) | Gate stats per method; scenario specs for gated axes | **Single scoring run + scoring report (Tue Nov 3; matches, tiers and per-tier metrics only; no predicates)**; efficacy re-check on `R_test`; statistics | Results draft | **G3 (Fri Nov 6): decision with Ryan (§9.1) + venue choice** |
 | W6 | Nov 9 – 13 | Reproduction tests; PDM-Lite generation on reproducing axes | Post-hoc analysis (labelled) | All specs committed before the reveal; reproduction tests | H3 target axis ID (pre-registered rule); **key reveal (Fri Nov 13)**; oracle spec; held-out remediation routes | Repair pipeline + controls; *(IV path: draft to Ryan for Honda/99P review Mon Nov 9; submit Nov 15)* | — |
 | W7 | Nov 16 – 20 | Generation | Ablations on `R_dev` | Post-hoc spec variants (labelled) | Remediation scoring prep | LoRA at 20k frames: targeted × 3 seeds; `C-rand`, `C-text`, `C-RoboART`, `C-behav`, `C-oracle` × 1 seed each | *(AAAI-27 workshops ≈ Nov 20, optional)* |
 | W8 | Nov 23 – 25 (Thanksgiving Nov 26–27) | Regression of the targeted model: bench2drive220 × 3 seeds (may run into the W9 buffer) | Figures | Figures | Remediation scoring | RSS Stage-1 draft; draft to Ryan for Honda/99P review (Mon Nov 23) | — |
@@ -797,7 +798,7 @@ Calendar weeks start **Mon 2026-09-28**. Course milestones: the midterm checkpoi
 Ryan's public expertise is applied LLMs, synthetic data and evaluation. The asks below lean on that, plus his access to HRI-US people, data and processes. They do not assume he is a driving-VLA specialist.
 
 1. **Gates.** Ratify the G0 decisions (D1–D9, §2.1) and the **G3 decision rule** (§9.1), and join the **Fri Nov 6** decision meeting.
-2. **Evaluation design review (his core strength).** Review the harness sections of `harness/PREREGISTRATION.md`: the tiers, the efficacy check, the Hungarian/Jaccard scoring and the gate's AUROC validation. The draft comes Wed Oct 14; comments are needed by Fri Oct 16, before `prereg-v1`, the key seal and the `R_test` launch on Oct 19.
+2. **Evaluation design review (his core strength).** Review the harness sections (P4) and the gate section (P3) of `harness/PREREGISTRATION.md`: the tiers, the efficacy check, the Hungarian/Jaccard scoring and the gate's AUROC validation. The draft comes Wed Oct 14; comments are needed by Fri Oct 16, before `prereg-v1`, the key seal and the `R_test` launch on Oct 19.
 3. **Compute.** Help obtaining GPU time beyond NRP: 99P/HRI credits, or introductions to a Berkeley faculty sponsor for Savio. Confirm by Oct 9.
 4. **Licensing and data.**
    - (a) Is the **Wayve non-commercial** SimLingo dataset licence compatible with a 99P/Honda-sponsored project, and can gapped or repaired checkpoints be released?
@@ -833,7 +834,7 @@ Ryan's public expertise is applied LLMs, synthetic data and evaluation. The asks
 
 ## 13. Operating Rules for an Orchestration Agent
 
-1. **Never** read, infer or request anything under `sealed/`, in P4-only tables, or in Fail2Drive per-scenario SimLingo results before the key reveal (planned Fri Nov 13). The Nov 3 scoring report shares only which axis IDs matched which gap IDs.
+1. **Never** read, infer or request anything under `sealed/`, in P4-only tables, or in Fail2Drive per-scenario SimLingo results before the key reveal (planned Fri Nov 13). The Nov 3 scoring report shares only per-tier metrics and which axis IDs matched which gap IDs and tiers (no predicates, no salt).
 2. **Never** cite a work that is not verified in `CITATION_AUDIT.md`. If you find a new work, add it there with evidence URLs first.
 3. **Never** state targets as results. Older proposals contain targets ("> 85% precision", "> 80% failure reduction"), not findings.
 4. Every experiment is a committed config under `configs/` plus a run record under `results/`. No untracked notebooks feed the paper.

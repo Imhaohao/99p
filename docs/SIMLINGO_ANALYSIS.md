@@ -30,7 +30,7 @@ In autonomous driving research, integrating Large Language Models (LLMs) and Vis
 - **VLM/VQA-centric models** (e.g., DriveLM, Lingo-1, DriveVLM) answer static questions about driving scenes but frequently produce language outputs that contradict their actual steering and throttle actions, or they only evaluate on open-loop logs (NuScenes) without closed-loop survival capabilities.
 
 **SimLingo** resolves this dichotomy. It is a lightweight (~1B-parameter, InternVL2-1B) **vision-only Vision-Language-Action (VLA)** model that simultaneously handles:
-1. **Closed-loop autonomous driving** (state of the art on Bench2Drive at publication, 85.07 DS; its driving-only base model SimLingo-BASE/CarLLaVA won the CARLA Challenge 2024. Newer methods now score higher, e.g. LEAD 95.59 vs SimLingo 86.55 DS under Bench2Drive v0.0.4).
+1. **Closed-loop autonomous driving** (state of the art on Bench2Drive at publication, 85.07 DS; its driving-only base model SimLingo-BASE/CarLLaVA won the CARLA Challenge 2024. Newer methods now score higher, e.g. LEAD/TFv6 95.28 vs SimLingo 85.07 DS on the community Bench2Drive v0.0.3 leaderboard (CITATION_AUDIT `lead-tfv6`, `bench2drive`); under v0.0.4 SimLingo is 86.55 DS).
 2. **Vision-language scene understanding** (Chain-of-Thought driving commentary and DriveLM VQA).
 3. **Language-action alignment via "Action Dreaming"** (synthesizing and evaluating counterfactual instruction-following futures without executing unsafe actions).
 

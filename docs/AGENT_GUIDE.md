@@ -10,7 +10,7 @@
 
 - **Course & Institution**: UC Berkeley CDSS 170 (Fall 2026) — Data Discovery Project.
 - **Industry Partner**: [99P Labs](https://99plabs.com/) / **Honda Research Institute, US** (HRI-US).
-- **Project Lead & Industry Mentor**: **Ryan Lingo** (Applied AI Research Engineer & Developer Advocate, 99P Labs / Honda Research Institute USA).
+- **Industry Mentor**: **Ryan Lingo** (Applied AI Research Engineer & Developer Advocate, 99P Labs / Honda Research Institute USA). He is not the student **team lead** (weekly planning; receives `MASTER_HANDOFF.md` §0.3 rule 7 escalations), who is named at G0 (Oct 2); see `MASTER_HANDOFF.md` O1.
 - **Student Research Team**:
   - **Jerry Yan (Zihao Yan)** (`imhaohao@berkeley.edu`) — Research Investigator / Architecture & Repository Lead.
   - **Chris** — Failure Probing & Policy Scenarios.
