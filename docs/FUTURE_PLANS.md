@@ -1,5 +1,10 @@
 # Future Plans & 12-Week Semester Roadmap
 
+> [!NOTE]
+> **Superseded in part (2026-09-28):**
+> - The week-by-week plan, gates and venue plan are now in [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md) §9 and §1.4.
+> - The compute table below is out of date: the NRP model roster rotates, and A100s need a quota request (see §1.5 of the handoff).
+
 > **Academic Context**: UC Berkeley CDSS 170 (Data Discovery Project) — Fall 2026  
 > **Industry Partner**: 99P Labs / Honda Research Institute, US  
 > **Industry Mentor**: Ryan Lingo  

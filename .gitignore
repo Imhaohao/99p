@@ -25,3 +25,6 @@ activations/
 # Local
 .env
 .DS_Store
+
+# Planted-gap answer key (P4 only; never commit)
+sealed/

@@ -1,5 +1,14 @@
 # 5 Publishable Research Proposals: TL;DR Pitches, Exigence, and Literature Gaps
 
+> [!WARNING]
+> **Audit (2026-09-28):**
+> - Several cited titles and venues were wrong; see [`CITATION_AUDIT.md`](CITATION_AUDIT.md).
+> - Quantitative claims are targets, not results.
+> - The NeurIPS 2026 Interp4Discovery and ICRA 2027 deadlines have passed.
+> - The Meteor query example `sun_altitude < 10 AND truck_occlusion = True` is not from Mobileye. Meteor forms its own hypotheses.
+>
+> The plan of record is [`MASTER_HANDOFF.md`](MASTER_HANDOFF.md).
+
 > **Document Type**: Executive Pitch & Exigence Dossier  
 > **Affiliation**: 99P Labs / Honda Research Institute, US & UC Berkeley CDSS 170 (Fall 2026)  
 > **Project Lead**: Ryan Lingo (Honda Research Institute)  
